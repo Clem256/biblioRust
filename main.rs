@@ -1,6 +1,8 @@
 use eframe::egui;
 use serde::{Serialize, Deserialize};
 use serde_json;
+use eframe::egui::Color32;
+
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions::default();
@@ -14,6 +16,7 @@ fn main() -> Result<(), eframe::Error> {
 #[derive(Serialize, Deserialize, Debug)]
 struct MyApp {
     name: String,
+    resume : String,
     types: String,
     number : i32,
     etat_parution : String,
@@ -36,6 +39,7 @@ impl Default for MyApp {
 
         Self {
             name: String::new(),
+            resume : String::new(),
             types: String::new(), 
             number : 0,
             etat_parution : String::new(),
@@ -49,13 +53,24 @@ impl Default for MyApp {
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
+         let my_frame = egui::containers::Frame {
+            inner_margin: egui::epaint::Margin { left: 10., right: 10., top: 10., bottom: 10., },
+            outer_margin: egui::epaint::Margin { left: 10., right: 10., top: 10., bottom: 10., },
+            rounding: egui::Rounding { nw: 1.0, ne: 1.0, sw: 1.0, se: 1.0, },
+            shadow: eframe::epaint::Shadow { color: Color32::WHITE, offset: egui::Vec2 { x: 0., y: 0. }, blur: 0., spread: 0., },
+            fill: Color32::BLACK,
+            stroke: egui::Stroke::new(1.0, Color32::BLACK),
+        };
+        egui::CentralPanel::default().frame(my_frame).show(ctx, |ui| {
             ui.heading("Books management");
 
             ui.label("Name :");
             ui.text_edit_singleline(&mut self.name);
 
-            ui.label("Type (Manga/LN/Bd/Roman) :");
+            ui.label("Resume :");
+            ui.text_edit_multiline(&mut self.resume);
+            
+            ui.label("Type (Manga/LN/Comics/Novel) :");
             ui.text_edit_singleline(&mut self.types);
 
             ui.label("Number of books :");
