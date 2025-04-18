@@ -6,7 +6,7 @@ A simple application for managing books in rust
 
 Create rust project with cargo.
 
-Add in dependencies in Cargo.toml.
+Add this dependencies in Cargo.toml.
 
 ```shell 
 eframe = "0.27"
